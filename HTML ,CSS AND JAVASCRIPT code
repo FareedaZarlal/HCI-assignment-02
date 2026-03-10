@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SehatConnect - Book Doctor Appointments in Minutes</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        
+        :root {
+            --primary: #0ea5e9;
+        }
+        
+        .tail-container {
+            font-family: 'Inter', system_ui, sans-serif;
+        }
+        
+        .hero-bg {
+            background: linear-gradient(rgba(14, 165, 233, 0.75), rgba(14, 165, 233, 0.75)), url('https://picsum.photos/id/1015/1920/1080') center/cover no-repeat;
+        }
+        
+        .card-hover {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+        }
+        
+        .step-number {
+            font-size: 3.5rem;
+            line-height: 1;
+            font-weight: 900;
+            background: linear-gradient(90deg, #0ea5e9, #22d3ee);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .nav-link {
+            position: relative;
+        }
+        
+        .nav-link:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -2px;
+            left: 0;
+            background-color: #0ea5e9;
+            transition: width 0.3s ease;
+        }
+        
+        .nav-link:hover:after {
+            width: 100%;
+        }
+    </style>
+</head>
+<body class="tail-container bg-gray-50 text-gray-800">
+    <!-- HEADER -->
+    <header class="bg-white border-b sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex items-center justify-between h-16">
+                <!-- Logo -->
+                <div class="flex items-center gap-3">
+                    <div class="w-9 h-9 bg-teal-500 rounded-2xl flex items-center justify-center text-white font-bold text-2xl shadow-inner">S
+                    </div>
+                    <div>
+                        <span class="font-bold text-2xl tracking-tight text-teal-600">Sehat</span>
+                        <span class="font-bold text-2xl tracking-tight text-gray-800">Connect</span>
+                    </div>
+                </div>
+
+                <!-- Desktop Nav -->
+                <nav class="hidden md:flex items-center gap-8 text-sm font-medium">
+                    <a href="#" class="nav-link text-gray-700 hover:text-teal-600">Home</a>
+                    <a href="#" class="nav-link text-gray-700 hover:text-teal-600">Find Doctors</a>
+                    <a href="#" class="nav-link text-gray-700 hover:text-teal-600">Services</a>
+                    <a href="#" class="nav-link text-gray-700 hover:text-teal-600">About</a>
+                    <a href="#" class="nav-link text-gray-700 hover:text-teal-600">Contact</a>
+                </nav>
+
+                <div class="flex items-center gap-4">
+                    <button onclick="document.getElementById('login-modal').classList.remove('hidden')"
+                            class="text-sm font-medium text-gray-700 hover:text-teal-600 px-5 py-2 rounded-xl transition">
+                        Login
+                    </button>
+                    <button onclick="window.location.href='#book'"
+                            class="bg-teal-500 hover:bg-teal-600 text-white text-sm font-semibold px-6 py-2.5 rounded-2xl transition flex items-center gap-2 shadow">
+                        <i class="fa-solid fa-calendar"></i>
+                        Book Appointment
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- HERO -->
+    <section class="hero-bg text-white">
+        <div class="max-w-7xl mx-auto px-6 pt-16 pb-24 grid md:grid-cols-12 gap-12 items-center">
+            <!-- Left Content -->
+            <div class="md:col-span-7">
+                <div class="max-w-xl">
+                    <h1 class="text-5xl md:text-6xl font-bold leading-tight tracking-tighter mb-6">
+                        Book Doctor Appointments<br><span class="text-teal-200">in Minutes</span>
+                    </h1>
+                    <p class="text-xl text-teal-100 mb-8">
+                        Trusted doctors in Bannu &amp; across Pakistan • Instant booking • 4.9★ rating
+                    </p>
+
+                    <!-- Search Bar -->
+                    <div class="bg-white rounded-3xl p-2 shadow-2xl">
+                        <div class="flex flex-col md:flex-row gap-2">
+                            <div class="flex-1 relative">
+                                <div class="absolute left-6 top-1/2 -translate-y-1/2 text-teal-400">
+                                    <i class="fa-solid fa-magnifying-glass"></i>
+                                </div>
+                                <input type="text" id="search-input"
+                                       class="w-full pl-14 pr-6 py-5 bg-transparent text-gray-900 placeholder:text-gray-400 focus:outline-none text-base"
+                                       placeholder="Search doctor or specialty (e.g. Cardiologist)">
+                            </div>
+                            
+                            <div class="flex items-center gap-3 border-l border-gray-200 pl-6 pr-4">
+                                <div class="flex items-center gap-2 text-gray-500">
+                                    <i class="fa-solid fa-location-dot"></i>
+                                    <select id="location-select" class="bg-transparent text-gray-700 font-medium focus:outline-none">
+                                        <option value="Bannu, KPK">Bannu, KPK</option>
+                                        <option value="Peshawar, KPK">Peshawar, KPK</option>
+                                        <option value="Islamabad">Islamabad</option>
+                                    </select>
+                                </div>
+                                <button onclick="performSearch()"
+                                        class="bg-teal-500 hover:bg-teal-600 text-white px-10 py-5 rounded-2xl font-semibold flex items-center gap-3 transition">
+                                    Search
+                                    <i class="fa-solid fa-arrow-right"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-8 flex items-center gap-8 text-sm">
+                        <div class="flex items-center gap-2">
+                            <div class="w-5 h-px bg-teal-200"></div>
+                            <span class="font-medium">Trusted by 15,000+ patients</span>
+                        </div>
+                        <div class="flex items-center text-amber-400">
+                            ★★★★☆ <span class="ml-1 text-white text-xs">4.9 (2,847 reviews)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Visual -->
+            <div class="md:col-span-5 hidden md:flex justify-end">
+                <div class="relative">
+                    <img src="https://picsum.photos/id/1011/520/520" 
+                         alt="Doctor" 
+                         class="w-80 h-80 object-cover rounded-3xl shadow-2xl border-8 border-white/30">
+                    <div class="absolute -bottom-4 -left-8 bg-white text-gray-800 rounded-3xl p-5 shadow-xl max-w-[220px]">
+                        <div class="flex items-center gap-3">
+                            <div class="w-12 h-12 bg-emerald-100 rounded-2xl flex items-center justify-center text-3xl">👨‍⚕️</div>
+                            <div>
+                                <div class="font-semibold">Dr. Ayesha Noor</div>
+                                <div class="text-xs text-emerald-600">Available in 12 mins</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SPECIALTIES -->
+    <section class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-12">
+                <span class="px-5 py-2 bg-teal-100 text-teal-700 text-xs font-semibold rounded-full">OUR SERVICES</span>
+                <h2 class="text-4xl font-bold mt-4">Our Specialties</h2>
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
+                <!-- Card 1 -->
+                <div class="bg-white border border-gray-100 rounded-3xl p-8 card-hover group">
+                    <div class="w-14 h-14 bg-teal-100 text-teal-600 rounded-2xl flex items-center justify-center text-3xl mb-6 group-hover:scale-110 transition">🩺</div>
+                    <h3 class="font-semibold text-xl mb-1">General Physician</h3>
+                    <p class="text-gray-500 text-sm mb-4">Expert care available</p>
+                    <a href="#" class="text-teal-500 text-sm font-medium flex items-center gap-2 group-hover:gap-3 transition">Learn more <span class="text-lg">→</span></a>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="bg-white border border-gray-100 rounded-3xl p-8 card-hover group">
+                    <div class="w-14 h-14 bg-pink-100 text-pink-600 rounded-2xl flex items-center justify-center text-3xl mb-6 group-hover:scale-110 transition">👩‍⚕️</div>
+                    <h3 class="font-semibold text-xl mb-1">Gynecology</h3>
+                    <p class="text-gray-500 text-sm mb-4">Expert care available</p>
+                    <a href="#" class="text-teal-500 text-sm font-medium flex items-center gap-2 group-hover:gap-3 transition">Learn more <span class="text-lg">→</span></a>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="bg-white border border-gray-100 rounded-3xl p-8 card-hover group">
+                    <div class="w-14 h-14 bg-blue-100 text-blue-600 rounded-2xl flex items-center justify-center text-3xl mb-6 group-hover:scale-110 transition">👶</div>
+                    <h3 class="font-semibold text-xl mb-1">Pediatrics</h3>
+                    <p class="text-gray-500 text-sm mb-4">Expert care available</p>
+                    <a href="#" class="text-teal-500 text-sm font-medium flex items-center gap-2 group-hover:gap-3 transition">Learn more <span class="text-lg">→</span></a>
+                </div>
+
+                <!-- Card 4 -->
+                <div class="bg-white border border-gray-100 rounded-3xl p-8 card-hover group">
+                    <div class="w-14 h-14 bg-red-100 text-red-600 rounded-2xl flex items-center justify-center text-3xl mb-6 group-hover:scale-110 transition">❤️</div>
+                    <h3 class="font-semibold text-xl mb-1">Cardiology</h3>
+                    <p class="text-gray-500 text-sm mb-4">Expert care available</p>
+                    <a href="#" class="text-teal-500 text-sm font-medium flex items-center gap-2 group-hover:gap-3 transition">Learn more <span class="text-lg">→</span></a>
+                </div>
+
+                <!-- Card 5 -->
+                <div class="bg-white border border-gray-100 rounded-3xl p-8 card-hover group">
+                    <div class="w-14 h-14 bg-orange-100 text-orange-600 rounded-2xl flex items-center justify-center text-3xl mb-6 group-hover:scale-110 transition">🦷</div>
+                    <h3 class="font-semibold text-xl mb-1">Dental Care</h3>
+                    <p class="text-gray-500 text-sm mb-4">Expert care available</p>
+                    <a href="#" class="text-teal-500 text-sm font-medium flex items-center gap-2 group-hover:gap-3 transition">Learn more <span class="text-lg">→</span></a>
+                </div>
+
+                <!-- Card 6 -->
+                <div class="bg-white border border-gray-100 rounded-3xl p-8 card-hover group">
+                    <div class="w-14 h-14 bg-purple-100 text-purple-600 rounded-2xl flex items-center justify-center text-3xl mb-6 group-hover:scale-110 transition">👂</div>
+                    <h3 class="font-semibold text-xl mb-1">ENT</h3>
+                    <p class="text-gray-500 text-sm mb-4">Confirm &amp; Pay Securely</p>
+                    <a href="#" class="text-teal-500 text-sm font-medium flex items-center gap-2 group-hover:gap-3 transition">Learn more <span class="text-lg">→</span></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- HOW IT WORKS -->
+    <section class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-12">
+                <span class="px-5 py-2 bg-teal-100 text-teal-700 text-xs font-semibold rounded-full">3 EASY STEPS</span>
+                <h2 class="text-4xl font-bold mt-4">How It Works</h2>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Step 1 -->
+                <div class="bg-white rounded-3xl p-10 relative">
+                    <div class="step-number">1</div>
+                    <div class="mt-8">
+                        <div class="text-2xl font-semibold mb-3">Search &amp; Filter Doctors</div>
+                        <p class="text-gray-500">Find the best doctors in Bannu by specialty, availability, or rating.</p>
+                    </div>
+                    <div class="absolute top-10 right-10 text-7xl font-black text-teal-100">01</div>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="bg-white rounded-3xl p-10 relative">
+                    <div class="step-number">2</div>
+                    <div class="mt-8">
+                        <div class="text-2xl font-semibold mb-3">Choose Date &amp; Time</div>
+                        <p class="text-gray-500">Select your preferred time slot instantly. No waiting!</p>
+                    </div>
+                    <div class="absolute top-10 right-10 text-7xl font-black text-teal-100">02</div>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="bg-white rounded-3xl p-10 relative">
+                    <div class="step-number">3</div>
+                    <div class="mt-8">
+                        <div class="text-2xl font-semibold mb-3">Confirm &amp; Pay Securely</div>
+                        <p class="text-gray-500">Book with confidence. Instant confirmation via secure payment.</p>
+                    </div>
+                    <div class="absolute top-10 right-10 text-7xl font-black text-teal-100">03</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TOP DOCTORS -->
+    <section class="py-20 bg-white" id="doctors">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex justify-between items-end mb-12">
+                <div>
+                    <span class="text-teal-500 font-medium">Bannu’s Finest</span>
+                    <h2 class="text-4xl font-bold">Meet Our Top Doctors in Bannu</h2>
+                </div>
+                <a href="#" class="text-teal-500 font-medium flex items-center gap-2">View all doctors <span class="text-xl">→</span></a>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Doctor 1 -->
+                <div class="bg-white border border-gray-100 rounded-3xl overflow-hidden card-hover">
+                    <img src="https://picsum.photos/id/64/400/300" alt="Dr. Ahmed Khan" class="w-full h-64 object-cover">
+                    <div class="p-6">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h3 class="font-semibold">Dr. Ahmed Khan</h3>
+                                <p class="text-teal-600 text-sm">MBBS, FCPS (Medicine)</p>
+                            </div>
+                            <div class="text-right">
+                                <div class="flex items-center gap-1 text-amber-400 text-sm">4.9 <i class="fa-solid fa-star"></i></div>
+                                <div class="text-xs text-gray-500">14 yrs exp</div>
+                            </div>
+                        </div>
+                        <div class="mt-6 flex items-center justify-between">
+                            <div class="text-2xl font-bold text-teal-600">Rs. 1,500</div>
+                            <button onclick="bookDoctor(this)" 
+                                    class="bg-teal-600 hover:bg-teal-700 text-white px-8 py-3 rounded-2xl text-sm font-medium">Book Now</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Doctor 2 -->
+                <div class="bg-white border border-gray-100 rounded-3xl overflow-hidden card-hover">
+                    <img src="https://picsum.photos/id/201/400/300" alt="Dr. Fatima Ali" class="w-full h-64 object-cover">
+                    <div class="p-6">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h3 class="font-semibold">Dr. Fatima Ali</h3>
+                                <p class="text-teal-600 text-sm">Gynecologist</p>
+                            </div>
+                            <div class="text-right">
+                                <div class="flex items-center gap-1 text-amber-400 text-sm">4.9 <i class="fa-solid fa-star"></i></div>
+                                <div class="text-xs text-gray-500">14 yrs exp</div>
+                            </div>
+                        </div>
+                        <div class="mt-6 flex items-center justify-between">
+                            <div class="text-2xl font-bold text-teal-600">Rs. 1,500</div>
+                            <button onclick="bookDoctor(this)" 
+                                    class="bg-teal-600 hover:bg-teal-700 text-white px-8 py-3 rounded-2xl text-sm font-medium">Book Now</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Doctor 3 -->
+                <div class="bg-white border border-gray-100 rounded-3xl overflow-hidden card-hover">
+                    <img src="https://picsum.photos/id/201/400/300" alt="Dr. Imran Shah" class="w-full h-64 object-cover">
+                    <div class="p-6">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h3 class="font-semibold">Dr. Imran Shah</h3>
+                                <p class="text-teal-600 text-sm">Cardiologist</p>
+                            </div>
+                            <div class="text-right">
+                                <div class="flex items-center gap-1 text-amber-400 text-sm">4.9 <i class="fa-solid fa-star"></i></div>
+                                <div class="text-xs text-gray-500">14 yrs exp</div>
+                            </div>
+                        </div>
+                        <div class="mt-6 flex items-center justify-between">
+                            <div class="text-2xl font-bold text-teal-600">Rs. 1,500</div>
+                            <button onclick="bookDoctor(this)" 
+                                    class="bg-teal-600 hover:bg-teal-700 text-white px-8 py-3 rounded-2xl text-sm font-medium">Book Now</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Doctor 4 -->
+                <div class="bg-white border border-gray-100 rounded-3xl overflow-hidden card-hover">
+                    <img src="https://picsum.photos/id/1005/400/300" alt="Dr. Ayesha Noor" class="w-full h-64 object-cover">
+                    <div class="p-6">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h3 class="font-semibold">Dr. Ayesha Noor</h3>
+                                <p class="text-teal-600 text-sm">Pediatrician</p>
+                            </div>
+                            <div class="text-right">
+                                <div class="flex items-center gap-1 text-amber-400 text-sm">4.9 <i class="fa-solid fa-star"></i></div>
+                                <div class="text-xs text-gray-500">14 yrs exp</div>
+                            </div>
+                        </div>
+                        <div class="mt-6 flex items-center justify-between">
+                            <div class="text-2xl font-bold text-teal-600">Rs. 1,500</div>
+                            <button onclick="bookDoctor(this)" 
+                                    class="bg-teal-600 hover:bg-teal-700 text-white px-8 py-3 rounded-2xl text-sm font-medium">Book Now</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- TESTIMONIALS -->
+    <section class="py-20 bg-teal-50">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-12">
+                <h2 class="text-4xl font-bold">What Our Patients Say</h2>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-white p-8 rounded-3xl">
+                    <div class="flex gap-1 text-amber-400 mb-6">★★★★★</div>
+                    <p class="italic text-gray-600">"Best healthcare platform in Bannu! Booked my appointment in under 2 minutes and got treated the same day."</p>
+                    <div class="mt-8 flex items-center gap-3">
+                        <div class="w-10 h-10 bg-gray-200 rounded-full"></div>
+                        <div>
+                            <div class="font-medium">Muhammad Farooq</div>
+                            <div class="text-xs text-gray-500">Bannu</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white p-8 rounded-3xl">
+                    <div class="flex gap-1 text-amber-400 mb-6">★★★★☆</div>
+                    <p class="italic text-gray-600">"Dr. Fatima Ali was amazing. The whole process was so smooth. Highly recommended!"</p>
+                    <div class="mt-8 flex items-center gap-3">
+                        <div class="w-10 h-10 bg-gray-200 rounded-full"></div>
+                        <div>
+                            <div class="font-medium">Sana Bibi</div>
+                            <div class="text-xs text-gray-500">Bannu</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-white p-8 rounded-3xl">
+                    <div class="flex gap-1 text-amber-400 mb-6">★★★★★</div>
+                    <p class="italic text-gray-600">"The 24/7 support is a lifesaver. My father got immediate help for his heart issue."</p>
+                    <div class="mt-8 flex items-center gap-3">
+                        <div class="w-10 h-10 bg-gray-200 rounded-full"></div>
+                        <div>
+                            <div class="font-medium">Hassan Khan</div>
+                            <div class="text-xs text-gray-500">Bannu</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- WHY CHOOSE US -->
+    <section class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid md:grid-cols-2 gap-16 items-center">
+                <div>
+                    <span class="uppercase text-teal-600 font-medium tracking-widest text-sm">BENEFITS</span>
+                    <h2 class="text-4xl font-bold mt-3 mb-10">Why Choose SehatConnect?</h2>
+                    
+                    <div class="space-y-10">
+                        <div class="flex gap-6">
+                            <div class="w-12 h-12 bg-teal-100 rounded-2xl flex-none flex items-center justify-center text-3xl">⚡</div>
+                            <div>
+                                <h4 class="font-semibold text-lg">Instant Booking</h4>
+                                <p class="text-gray-500">Book with verified doctors in seconds. No phone calls needed.</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-6">
+                            <div class="w-12 h-12 bg-teal-100 rounded-2xl flex-none flex items-center justify-center text-3xl">✅</div>
+                            <div>
+                                <h4 class="font-semibold text-lg">Verified Doctors</h4>
+                                <p class="text-gray-500">All doctors are PMDC verified with real patient reviews.</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-6">
+                            <div class="w-12 h-12 bg-teal-100 rounded-2xl flex-none flex items-center justify-center text-3xl">🔒</div>
+                            <div>
+                                <h4 class="font-semibold text-lg">Secure Payment</h4>
+                                <p class="text-gray-500">100% secure payments. Cancel anytime before appointment.</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-6">
+                            <div class="w-12 h-12 bg-teal-100 rounded-2xl flex-none flex items-center justify-center text-3xl">🕒</div>
+                            <div>
+                                <h4 class="font-semibold text-lg">24/7 Support</h4>
+                                <p class="text-gray-500">Our team is always here to help you via call or chat.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-teal-600 text-white rounded-3xl p-12">
+                    <div class="text-6xl font-black mb-2">15k+</div>
+                    <div class="uppercase tracking-widest text-teal-200 text-sm mb-8">Happy Patients in Bannu</div>
+                    
+                    <div class="h-px bg-white/30 my-10"></div>
+                    
+                    <div class="grid grid-cols-2 gap-8">
+                        <div>
+                            <div class="text-4xl font-semibold">98%</div>
+                            <div class="text-teal-100 text-sm">Satisfaction Rate</div>
+                        </div>
+                        <div>
+                            <div class="text-4xl font-semibold">4.9</div>
+                            <div class="text-teal-100 text-sm">Average Rating</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-gray-900 text-gray-400">
+        <div class="max-w-7xl mx-auto px-6 pt-16 pb-8">
+            <div class="grid md:grid-cols-5 gap-10">
+                <div class="md:col-span-2">
+                    <div class="flex items-center gap-3 text-white mb-6">
+                        <div class="w-9 h-9 bg-teal-500 rounded-2xl flex items-center justify-center text-white font-bold text-2xl">S</div>
+                        <span class="font-bold text-3xl tracking-tighter">SehatConnect</span>
+                    </div>
+                    <p class="max-w-xs">Pakistan’s most trusted platform for instant doctor appointments.</p>
+                    
+                    <div class="mt-8 flex gap-6 text-2xl">
+                        <i class="fa-brands fa-facebook hover:text-white cursor-pointer"></i>
+                        <i class="fa-brands fa-instagram hover:text-white cursor-pointer"></i>
+                        <i class="fa-brands fa-whatsapp hover:text-white cursor-pointer"></i>
+                    </div>
+                </div>
+                
+                <div>
+                    <div class="font-medium text-white mb-5">Quick Links</div>
+                    <div class="space-y-3 text-sm">
+                        <div class="hover:text-white cursor-pointer">Find Doctors</div>
+                        <div class="hover:text-white cursor-pointer">Specialties</div>
+                        <div class="hover:text-white cursor-pointer">How it Works</div>
+                    </div>
+                </div>
+                
+                <div>
+                    <div class="font-medium text-white mb-5">Company</div>
+                    <div class="space-y-3 text-sm">
+                        <div class="hover:text-white cursor-pointer">About Us</div>
+                        <div class="hover:text-white cursor-pointer">Careers</div>
+                        <div class="hover:text-white cursor-pointer">Blog</div>
+                        <div class="hover:text-white cursor-pointer">Contact</div>
+                    </div>
+                </div>
+                
+                <div>
+                    <div class="font-medium text-white mb-5">Get in touch</div>
+                    <div class="text-sm leading-relaxed">
+                        Call us: <span class="text-white font-medium">0928-123456</span><br>
+                        Email: hello@sehatconnect.pk<br><br>
+                        Bannu, Khyber Pakhtunkhwa
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-16 pt-8 text-xs flex flex-col md:flex-row justify-between items-center gap-4">
+                <div>© 2025 SehatConnect • Bannu, Pakistan. All rights reserved.</div>
+                <div class="flex gap-6 text-xs">
+                    <div class="hover:text-white cursor-pointer">Privacy</div>
+                    <div class="hover:text-white cursor-pointer">Terms</div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Simple Login Modal (demo) -->
+    <div id="login-modal" class="hidden fixed inset-0 bg-black/70 flex items-center justify-center z-[999]">
+        <div onclick="event.stopImmediatePropagation()" 
+             class="bg-white rounded-3xl max-w-md w-full mx-4 overflow-hidden">
+            <div class="p-8">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="text-2xl font-semibold">Welcome back</h3>
+                    <button onclick="document.getElementById('login-modal').classList.add('hidden')" 
+                            class="text-3xl leading-none text-gray-300 hover:text-gray-500">×</button>
+                </div>
+                <input type="email" placeholder="Email" class="w-full border border-gray-200 rounded-2xl px-6 py-4 mb-4 focus:outline-none">
+                <input type="password" placeholder="Password" class="w-full border border-gray-200 rounded-2xl px-6 py-4 mb-6 focus:outline-none">
+                <button onclick="fakeLogin()" 
+                        class="w-full bg-teal-500 text-white py-4 rounded-2xl font-semibold">Login</button>
+            </div>
+            <div class="bg-gray-50 px-8 py-5 text-center text-sm text-gray-500">
+                Don't have an account? <span class="text-teal-500 cursor-pointer">Sign up free</span>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Tailwind script already loaded
+        function performSearch() {
+            const query = document.getElementById('search-input').value || "Cardiologist";
+            const location = document.getElementById('location-select').value;
+            alert(`🔍 Searching for "${query}" in ${location}...\n\n(Real backend would show results here)`);
+        }
+        
+        function bookDoctor(btn) {
+            btn.innerHTML = "✓ Booked!";
+            btn.style.backgroundColor = "#10b981";
+            setTimeout(() => {
+                alert("🎉 Appointment confirmed for tomorrow at 10:00 AM!\n\nDoctor will call you shortly.");
+                btn.innerHTML = "Book Now";
+                btn.style.backgroundColor = "";
+            }, 800);
+        }
+        
+        function fakeLogin() {
+            alert("✅ Logged in successfully! Welcome back to SehatConnect.");
+            document.getElementById('login-modal').classList.add('hidden');
+        }
+        
+        // Keyboard support for search
+        document.getElementById('search-input').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') performSearch();
+        });
+        
+        // Make it look even better on load
+        console.log('%c✅ SehatConnect landing page loaded successfully!', 'color:#14b8a6; font-family:monospace');
+    </script>
+</body>
+</html>
